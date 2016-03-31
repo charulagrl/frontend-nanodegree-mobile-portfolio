@@ -448,12 +448,15 @@ var resizePizzas = function(size) {
     return dx;
   }
 
+  /* Optimization: Instead of querying all randomPizzaContainer class elements, query them once and store it in variable */
+  var pizzaContainers = document.getElementsByClassName("randomPizzaContainer");
+  var pizzaContainerLength = pizzaContainer.length;
+  var dx = determineDx(pizzaContainers[0], size);
+  var newwidth = (pizzaContainers[0].offsetWidth + dx) + 'px';
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    for (var i = 0; i < pizzaContainerLength; i++) {
+      pizzaContainers[i].style.width = newwidth;
     }
   }
 
@@ -502,10 +505,20 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  var items = document.getElementsByClassName('mover');
+  /* Optimization: Calculate and store scrollTop in a variable */
+  var scrollTop = document.body.scrollTop;
+  var phaseArray = []
+  /* Optimization: Get all the mover class elements by getElementsByClassName */
+  var items = document.getElementsByClassName('mover');
+
+  /* Optimization: Store the possible phase values in an array */
+  for (var i = 0; i < 5; i++) {
+    phaseArray.push(Math.sin((scrollTop / 1250) + (i % 5)));
+  }
+
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    items[i].style.left = items[i].basicLeft + 100 * phaseArray[i % 5] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -525,7 +538,10 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  var rows = window.innerHeight / s;
+  var totalPizza = Math.ceil(rows * cols);
+  /* Optimization: Total pizza will be according to the dimensions of the windowWidth */
+  for (var i = 0; i < totalPizza; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
