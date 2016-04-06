@@ -6,8 +6,8 @@ module.exports = function(grunt) {
 
     uglify: {
       build: {
-        src: 'js/perfmatters.js',
-        dest: 'js/perfmatters.min.js'
+        src: 'src/js/perfmatters.js',
+        dest: 'dist/js/perfmatters.min.js'
       }
     },
 
@@ -15,9 +15,15 @@ module.exports = function(grunt) {
       dynamic: {
         files: [{
             expand: true,
-            cwd: 'img/',
+            cwd: 'src/img/',
             src: ['**/*.{png,jpg,gif}'],
-            dest: 'img/build/'
+            dest: 'dist/img/'
+        },
+        {
+          expand: true,
+          cwd: 'views/images/',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'dist/img/'
         }]
       }
     },
@@ -29,10 +35,10 @@ module.exports = function(grunt) {
           collapseWhitespace: true
         },
         files: {                                   // Dictionary of files
-          'dest/index.html': 'src/index.html',     // 'destination': 'source'
-          'dest/project-2048.html': 'src/project-2048.html',
-          'dest/project-mobile.html': 'src/project-mobile.html',
-          'dest/project-webperf.html': 'src/project-webperf.html'
+          'index.html': 'src/index.html',     // 'destination': 'source'
+          'dist/project-2048.html': 'src/project-2048.html',
+          'dist/project-mobile.html': 'src/project-mobile.html',
+          'dist/project-webperf.html': 'src/project-webperf.html'
         }
       },
     },
@@ -41,9 +47,9 @@ module.exports = function(grunt) {
       target: {
         files: [{
           expand: true,
-          cwd: 'css/',
+          cwd: 'src/css/',
           src: ['*.css', '!*.min.css'],
-          dest: 'css/build',
+          dest: 'dist/',
           ext: '.min.css'
         }]
       }

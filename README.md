@@ -25,6 +25,14 @@ Some useful tips to help you get started:
   $> cd /path/to/your-project-folder
   $> ngrok http 8080
   ```
+1. To run the minification, run the following commands:
+1. ``` bash
+	$> grunt imagemin
+	$> grunt cssmin
+	$> grunt uglify
+	$> grunt htmlmin
+
+1. Open index.html in your browser.
 
 1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
 
